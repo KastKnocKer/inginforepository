@@ -9,6 +9,16 @@ public class JFrame_Main extends JFrame implements WindowListener{
 	public JFrame_Main(){
 		super("Repository - Ingegneria Informatica");
 		
+		/*Barra dei menu*/
+		JMenuBar BarraDeiMenu = new JMenuBar();
+		JMenu menuFile = new JMenu("File");
+		
+        JMenuItem itemEsci = new JMenuItem("Esci");	
+        menuFile.add(itemEsci);
+        
+        BarraDeiMenu.add(menuFile);
+		this.setJMenuBar(BarraDeiMenu);
+		/*Fine Barra dei menu*/
 		
 		
 		
