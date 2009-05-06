@@ -6,7 +6,7 @@ import javax.swing.UIManager;
 public class Main {
 
 	/**
-	 * @param args
+	 * @param args 
 	 */
 	public static void main(String[] args) {
 		
