@@ -1,4 +1,5 @@
 package Grafica;
+import java.awt.Toolkit;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
@@ -24,8 +25,9 @@ public class JFrame_Main extends JFrame implements WindowListener{
 		
 		
 		
-		this.setSize(1000, 800);
+		this.setSize(Toolkit.getDefaultToolkit().getScreenSize());
 		setVisible(true);
+		
 	}
 	
 	public void windowClosed(WindowEvent e){System.exit(0);}
