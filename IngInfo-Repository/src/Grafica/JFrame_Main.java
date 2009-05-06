@@ -1,11 +1,13 @@
 package Grafica;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
 import javax.swing.*;
 
-public class JFrame_Main extends JFrame implements WindowListener{
+public class JFrame_Main extends JFrame implements WindowListener, ActionListener{
 
 	public JFrame_Main(){
 		super("Repository - Ingegneria Informatica");
@@ -15,6 +17,8 @@ public class JFrame_Main extends JFrame implements WindowListener{
 		JMenu menuFile = new JMenu("File");
 		
         JMenuItem itemEsci = new JMenuItem("Esci");	
+        itemEsci.addActionListener(this);
+        
         menuFile.add(itemEsci);
         
         BarraDeiMenu.add(menuFile);
@@ -37,5 +41,11 @@ public class JFrame_Main extends JFrame implements WindowListener{
 	public void windowActivated(WindowEvent e){}
 	public void windowDeactivated(WindowEvent e){}
 	public void windowOpened(WindowEvent e){}
+
+	
+	public void actionPerformed(ActionEvent e) {
+		if(e.getActionCommand().equals("Esci")) this.dispose();
+		
+	}
 	
 }
