@@ -7,6 +7,8 @@ import java.awt.event.WindowListener;
 
 import javax.swing.*;
 
+import Componenti.JTree_Repository;
+
 public class JFrame_Main extends JFrame implements WindowListener, ActionListener{
 
 	public JFrame_Main(){
@@ -25,7 +27,7 @@ public class JFrame_Main extends JFrame implements WindowListener, ActionListene
 		this.setJMenuBar(BarraDeiMenu);
 		/*Fine Barra dei menu*/
 		
-		
+		this.add(JTree_Repository.getTree());
 		
 		
 		
