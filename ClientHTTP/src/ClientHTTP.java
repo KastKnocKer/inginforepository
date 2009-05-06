@@ -51,7 +51,7 @@ public class ClientHTTP {
 	 
 	// Eseguiamo la richiesta e prendiamo la risposta
 	HttpResponse response = httpclient.execute(httpget);
-	 
+	 System.out.println("Love");
 	// Stampiamo Status Line e Headers
 	System.out.println(response.getStatusLine());
 	Header[] headers = response.getAllHeaders();
