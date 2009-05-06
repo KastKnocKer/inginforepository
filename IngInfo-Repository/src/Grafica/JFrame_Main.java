@@ -27,7 +27,7 @@ public class JFrame_Main extends JFrame implements WindowListener, ActionListene
 		this.setJMenuBar(BarraDeiMenu);
 		/*Fine Barra dei menu*/
 		
-		this.add(JTree_Repository.getTree());
+		this.add(new JTree_Repository().getTree());
 		
 		
 		

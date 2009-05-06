@@ -10,6 +10,7 @@ import it.sauronsoftware.ftp4j.FTPListParseException;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Vector;
 
 public class ConnessioneFTP {
 	
@@ -41,6 +42,41 @@ public class ConnessioneFTP {
 		} catch (Exception e) {
 		
 		}
+	}
+	
+	public static boolean changeDirectory(String dir){
+		try {
+			ftpClient.changeDirectory(dir);
+			System.out.println("Dir attuale: " + ftpClient.currentDirectory());
+		} catch (Exception e) {
+			return false;
+		}
+		return true;
+	}
+	
+	public static Vector<String> getVectorDir(){
+		Vector<String> vettore = new Vector<String>();
+		try {
+			
+						FTPFile[] listaDirFile = ftpClient.list();
+						int i = 0;
+						boolean flag = true;
+						while(flag){
+							try{
+								System.out.println(ftpClient.serverStatus().toString()+" "+listaDirFile[i].getType());
+								i++;
+							}catch(Exception e){
+								flag = false;
+							}
+							
+						}
+		
+		} catch (Exception e) {
+			return null;
+		}
+		
+		
+		return vettore;
 	}
 	
 	public static void getDir(){
