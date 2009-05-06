@@ -59,11 +59,15 @@ public class ConnessioneFTP {
 		try {
 			
 						FTPFile[] listaDirFile = ftpClient.list();
+						String curDir = ftpClient.currentDirectory();
 						int i = 0;
 						boolean flag = true;
 						while(flag){
 							try{
-								System.out.println(ftpClient.serverStatus().toString()+" "+listaDirFile[i].getType());
+								System.out.println(listaDirFile[i].getName()+" "+listaDirFile[i].getLink());
+								if(listaDirFile[i].getType()==FTPFile.TYPE_DIRECTORY){
+									vettore.add( curDir+"/"+listaDirFile[i].getName() );
+								}
 								i++;
 							}catch(Exception e){
 								flag = false;

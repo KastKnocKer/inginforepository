@@ -28,6 +28,7 @@ public class JTree_Repository{
         this.albero.setVisibleRowCount(25);
         
         caricaAlbero();
+        modelloAlbero.reload();
     }
     
 	public static Component getTree() {
@@ -36,7 +37,7 @@ public class JTree_Repository{
 	
 	private void caricaAlbero(){
 		Vector<String> dirHome = new Vector<String>();
-		dirHome.add("/Repository/");
+		dirHome.add("/Repository");
 		caricaAlbero(dirHome,(DefaultMutableTreeNode)nodoRadiceAlbero);
 	}
 	
@@ -47,8 +48,13 @@ public class JTree_Repository{
 			
 			/*Vado nella Directory*/
 			ConnessioneFTP.changeDirectory( VettoreDir.get(i) );
-			ConnessioneFTP.getVectorDir();
-			
+			String tmp = VettoreDir.get(i);
+			int index = tmp.lastIndexOf('/')+1;
+			tmp=tmp.substring(index);
+			DefaultMutableTreeNode nuovoNodo = new DefaultMutableTreeNode( tmp );
+			modelloAlbero.insertNodeInto(nuovoNodo, nodoGenitore, nodoGenitore.getChildCount());
+					
+			caricaAlbero(ConnessioneFTP.getVectorDir(), nuovoNodo);
 			
 		}
 		
