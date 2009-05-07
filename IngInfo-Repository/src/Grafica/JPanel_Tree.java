@@ -8,9 +8,10 @@ public class JPanel_Tree extends JPanel{
 	
 	public JPanel_Tree(){
 		super();
+		this.setLayout(new java.awt.BorderLayout());
 		JTree_Repository JTR = new JTree_Repository();
-		this.add( new JScrollPane( JTree_Repository.getTree() ) );
-		
+		JScrollPane JSP = new JScrollPane( JTree_Repository.getTree());
+		this.add(JSP , java.awt.BorderLayout.CENTER );
 	}
 
 }
