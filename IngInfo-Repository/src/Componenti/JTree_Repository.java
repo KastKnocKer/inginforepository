@@ -13,6 +13,7 @@ import javax.swing.tree.*;
 
 import Connessioni.ConnessioneFTP;
 import Connessioni.ConnessioneMySql;
+import Grafica.JPanel_Visualizzazione;
 
 public class JTree_Repository implements TreeSelectionListener{
 	
@@ -189,7 +190,23 @@ public class JTree_Repository implements TreeSelectionListener{
 	public void valueChanged(TreeSelectionEvent e) {
 		
 	nodoSelezionato = (DefaultMutableTreeNode) albero.getSelectionPath().getLastPathComponent();
-	if(nodoSelezionato.getLevel()==2) System.out.println("Selezionato "+nodoSelezionato.toString());
+	
+	if(nodoSelezionato.getLevel()==2) {
+		
+		String[] tmp = null;
+		String path = null; /*PATH ASSOLUTO*/
+		for(int i=0; i<VettoreDir.size();i++){
+			tmp = (String[]) VettoreDir.get(i);
+			if(tmp[0].equals( nodoSelezionato.toString()) ){
+				path = tmp[1]+"/"+tmp[0];
+				break;
+			}
+		}
+	System.out.println("Selezionato "+nodoSelezionato.toString());
+	System.out.println("PATH: "+path);
+	JPanel_Visualizzazione.setDirVisualizzata(path);
+	}
+	
 	
 	}
 		
