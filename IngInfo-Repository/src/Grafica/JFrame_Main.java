@@ -47,7 +47,7 @@ public class JFrame_Main extends JFrame implements WindowListener, ActionListene
 
 	
 	public void actionPerformed(ActionEvent e) {
-		if(e.getActionCommand().equals("Esci")) this.dispose();
+		if(e.getActionCommand().equals("Esci")) System.exit(0);
 		
 	}
 	

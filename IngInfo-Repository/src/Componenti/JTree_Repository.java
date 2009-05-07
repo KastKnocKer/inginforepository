@@ -36,11 +36,14 @@ public class JTree_Repository implements TreeSelectionListener{
         this.albero.setRootVisible(false);
         this.albero.setVisibleRowCount(25);
         this.albero.setPreferredSize(new Dimension(300,0));
-        //aggiornaDBdaFTP();
-        //caricaAlbero();
-        //caricaAlberoDaDB();
+
+
+        
+        /*Carico da database i nodi del jtree*/
+        ConnessioneMySql.connetti();
         caricaAlberoDaDBFast();
-       
+        ConnessioneMySql.Disconnetti();
+        
         modelloAlbero.reload();
     }
     
@@ -139,7 +142,13 @@ public class JTree_Repository implements TreeSelectionListener{
 		
     }
 	
-	public void aggiornaDBdaFTP(){
+	public void AggiornamentoDBdaFTP(){
+		ConnessioneFTP.Connect();
+		aggiornaDBdaFTP();
+		ConnessioneFTP.Disconnect();
+	}
+	
+	private void aggiornaDBdaFTP(){
 		String query="DELETE FROM rep_filesystem;";
 		ConnessioneMySql.eseguiAggiornamento(query);
 		aggiornaDBdaFTP("/Repository");

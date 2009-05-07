@@ -18,12 +18,13 @@ public class ConnessioneMySql {
 			   System.exit(0);
 			}
 			
-		if( db.isConnesso() )System.out.println("Connesso!!");
+		if( db.isConnesso() )System.out.println("Connessione MySql Effettuata");
 			
 	}
 	
 	public static void Disconnetti(){
 		db.disconnetti();
+		System.out.println("Disconnessione MySql Effettuata");
 	}
 	
 	public static Vector eseguiQuery(String query){
