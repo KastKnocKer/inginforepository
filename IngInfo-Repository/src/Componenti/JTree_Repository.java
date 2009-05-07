@@ -7,18 +7,21 @@ import java.io.File;
 import java.util.Vector;
 
 import javax.swing.*;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.*;
 
 import Connessioni.ConnessioneFTP;
 import Connessioni.ConnessioneMySql;
 
-public class JTree_Repository{
+public class JTree_Repository implements TreeSelectionListener{
 	
 	private DefaultTreeModel modelloAlbero = null;
     private static DefaultMutableTreeNode nodoRadiceAlbero = null;
     private String percorsoSelezionato = null;
 	private static JTree albero = null;
 	private static Vector VettoreDir = null;
+	private static DefaultMutableTreeNode nodoSelezionato;
     
     public JTree_Repository(){
     	
@@ -27,6 +30,7 @@ public class JTree_Repository{
         this.modelloAlbero = (DefaultTreeModel)this.albero.getModel();
         
      // impostazioni varie
+        this.albero.addTreeSelectionListener(this);
         this.albero.setEditable(false);
         this.albero.setShowsRootHandles(true);
         this.albero.setRootVisible(false);
@@ -170,6 +174,14 @@ public class JTree_Repository{
 		}
 			
 			
+	}
+
+
+	public void valueChanged(TreeSelectionEvent e) {
+		
+	nodoSelezionato = (DefaultMutableTreeNode) albero.getSelectionPath().getLastPathComponent();
+	if(nodoSelezionato.getLevel()==2) System.out.println("Selezionato "+nodoSelezionato.toString());
+	
 	}
 		
 		

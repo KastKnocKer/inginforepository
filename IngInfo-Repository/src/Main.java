@@ -35,6 +35,8 @@ public class Main {
 		
 		System.out.println("Fabio era gay e ora sta con lui");
 		System.out.println("W le twins");
+		
+		
 	}
 
 }
