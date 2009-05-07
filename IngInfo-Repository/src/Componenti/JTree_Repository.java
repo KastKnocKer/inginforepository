@@ -2,6 +2,7 @@ package Componenti;
 import it.sauronsoftware.ftp4j.FTPFile;
 
 import java.awt.Component;
+import java.awt.Dimension;
 import java.io.File;
 import java.util.Vector;
 
@@ -17,6 +18,7 @@ public class JTree_Repository{
     private static DefaultMutableTreeNode nodoRadiceAlbero = null;
     private String percorsoSelezionato = null;
 	private static JTree albero = null;
+	private static Vector VettoreDir = null;
     
     public JTree_Repository(){
     	
@@ -29,12 +31,47 @@ public class JTree_Repository{
         this.albero.setShowsRootHandles(true);
         this.albero.setRootVisible(false);
         this.albero.setVisibleRowCount(25);
-        
+        this.albero.setPreferredSize(new Dimension(300,0));
         //aggiornaDBdaFTP();
         //caricaAlbero();
-        caricaAlberoDaDB();
+        //caricaAlberoDaDB();
+        caricaAlberoDaDBFast();
+       
         modelloAlbero.reload();
     }
+    
+    private void caricaAlberoDaDBFast() {
+		String query = "SELECT * FROM rep_filesystem WHERE tipo='dir';";
+		VettoreDir = ConnessioneMySql.eseguiQuery(query);
+		String NomeDir,Path;
+		for(int i=0; i<VettoreDir.size(); i++){
+			String[] record = (String[]) VettoreDir.elementAt(i);
+			if( !record[1].equals("/Repository") ) continue;
+			NomeDir=record[0];
+			Path=record[1];
+			System.out.println(NomeDir +" "+ Path);
+			DefaultMutableTreeNode nuovoNodo = new DefaultMutableTreeNode( NomeDir );
+			modelloAlbero.insertNodeInto(nuovoNodo, this.nodoRadiceAlbero, this.nodoRadiceAlbero.getChildCount());
+			caricaAlberoDaDBFast(Path+"/"+NomeDir, nuovoNodo);
+			
+			}
+		
+	}
+    
+    private void caricaAlberoDaDBFast(String path, DefaultMutableTreeNode nodo){
+    	String NomeDir,Path;
+		for(int i=0; i<VettoreDir.size(); i++){
+			String[] record = (String[]) VettoreDir.elementAt(i);
+			if( !record[1].equals(path) ) continue;
+			NomeDir=record[0];
+			Path=record[1];
+			System.out.println(NomeDir +" "+ Path);
+			DefaultMutableTreeNode nuovoNodo = new DefaultMutableTreeNode( NomeDir );
+			modelloAlbero.insertNodeInto(nuovoNodo, nodo, nodo.getChildCount());
+			caricaAlberoDaDBFast(Path+"/"+NomeDir, nuovoNodo);
+			
+			}
+	}
     
 	private void caricaAlberoDaDB() {
 		String query = "SELECT * FROM rep_filesystem WHERE tipo='dir' AND path='/Repository';";
@@ -137,34 +174,7 @@ public class JTree_Repository{
 		
 		
 		
-		
-		
-		/*
-		ConnessioneFTP.changeDirectory( dir );
-		FTPFile[] lista = ConnessioneFTP.getListFTPFile();
-		
-		try{
-			int i=0;
-			boolean flag = true;
-			String query = null;
-			String tmp = null;
-			while(flag){
-				if(lista[i].getType() == FTPFile.TYPE_DIRECTORY){
-					query="INSERT INTO rep_filesystem (nome, path, isdir) VALUES ('"+lista[i].getName()+"', '"+dir+"','1');";
-					aggiornaDBdaFTP(dir+"/"+lista[i].getName());
-				}else{
-					query="INSERT INTO rep_filesystem (nome, path, isdir) VALUES ('"+lista[i].getName()+"', '"+dir+"','1');";
-				}
-				ConnessioneMySql.eseguiAggiornamento(query);
-				i++;
-			}
-			
-		}catch(Exception e){
-			
-		}
-		*/
-		/**/
-	
+
 	
     
 }
