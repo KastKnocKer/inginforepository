@@ -83,6 +83,16 @@ public class ConnessioneFTP {
 		return vettore;
 	}
 	
+	public static FTPFile[] getListFTPFile(){
+		try {
+			FTPFile[] listaDirFile = ftpClient.list();
+			return listaDirFile;
+		} catch (Exception e) {
+			return null;
+		}
+		
+	}
+	
 	public static void getDir(){
 		try {
 			FTPFile[] listina = ftpClient.list();
