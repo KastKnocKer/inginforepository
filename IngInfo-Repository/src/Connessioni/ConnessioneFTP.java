@@ -32,13 +32,14 @@ public class ConnessioneFTP {
 	}
 
 	public static boolean isConnected(){
-		System.out.println("Connesso :O");
+		System.out.println("Connessione FTP - Effettuata!");
 		return ftpClient.isConnected();
 	}
 	
 	public static void Disconnect(){
 		try {
 			ftpClient.disconnect(true);
+			System.out.println("Disconnessione FTP - Effettuata!");
 		} catch (Exception e) {
 		
 		}
@@ -56,30 +57,57 @@ public class ConnessioneFTP {
 	
 	public static Vector<String> getVectorDir(){
 		Vector<String> vettore = new Vector<String>();
-		try {
-			
-						FTPFile[] listaDirFile = ftpClient.list();
-						String curDir = ftpClient.currentDirectory();
-						int i = 0;
-						boolean flag = true;
-						while(flag){
-							try{
-								System.out.println(listaDirFile[i].getName()+" "+listaDirFile[i].getLink());
-								if(listaDirFile[i].getType()==FTPFile.TYPE_DIRECTORY){
-									vettore.add( curDir+"/"+listaDirFile[i].getName() );
+			try {
+				
+				FTPFile[] listaDirFile = ftpClient.list();
+				String curDir = ftpClient.currentDirectory();
+				int i = 0;
+				boolean flag = true;
+							while(flag){
+								
+								try{
+									//System.out.println("getVectorDir: "+listaDirFile[i].getName()+" "+listaDirFile[i].getLink());
+									if(listaDirFile[i].getType()==FTPFile.TYPE_DIRECTORY){
+										vettore.add( new String(curDir+"/"+listaDirFile[i].getName()) );
+									}
+									i++;
+								}catch(Exception e){
+									flag = false;
 								}
-								i++;
-							}catch(Exception e){
-								flag = false;
+								
 							}
 							
-						}
-		
-		} catch (Exception e) {
-			return null;
-		}
-		
-		
+			} catch (Exception e) {
+				return null;
+			}
+		return vettore;
+	}
+	
+	public static Vector<String> getVectorFile(){
+		Vector<String> vettore = new Vector<String>();
+			try {
+				
+				FTPFile[] listaDirFile = ftpClient.list();
+				String curDir = ftpClient.currentDirectory();
+				int i = 0;
+				boolean flag = true;
+							while(flag){
+								
+								try{
+									//System.out.println("getVectorDir: "+listaDirFile[i].getName()+" "+listaDirFile[i].getLink());
+									if(listaDirFile[i].getType()==FTPFile.TYPE_FILE){
+										vettore.add( new String(curDir+"/"+listaDirFile[i].getName()) );
+									}
+									i++;
+								}catch(Exception e){
+									flag = false;
+								}
+								
+							}
+							
+			} catch (Exception e) {
+				return null;
+			}
 		return vettore;
 	}
 	
