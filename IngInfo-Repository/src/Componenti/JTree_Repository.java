@@ -38,7 +38,7 @@ public class JTree_Repository implements TreeSelectionListener{
         this.albero.setVisibleRowCount(25);
         this.albero.setPreferredSize(new Dimension(300,0));
 
-
+        
         
         /*Carico da database i nodi del jtree*/
         ConnessioneMySql.connetti();
@@ -49,7 +49,7 @@ public class JTree_Repository implements TreeSelectionListener{
     }
     
     private void caricaAlberoDaDBFast() {
-		String query = "SELECT * FROM rep_filesystem WHERE tipo='dir';";
+		String query = "SELECT * FROM rep_directory;";
 		VettoreDir = ConnessioneMySql.eseguiQuery(query);
 		String NomeDir,Path;
 		for(int i=0; i<VettoreDir.size(); i++){
@@ -81,8 +81,9 @@ public class JTree_Repository implements TreeSelectionListener{
 			}
 	}
     
-	private void caricaAlberoDaDB() {
-		String query = "SELECT * FROM rep_filesystem WHERE tipo='dir' AND path='/Repository';";
+/*
+ * 	private void caricaAlberoDaDB() {
+		String query = "SELECT * FROM rep_directory WHERE path='/Repository';";
 		Vector v = ConnessioneMySql.eseguiQuery(query);
 		String NomeDir,Path;
 		for(int i=0; i<v.size(); i++){
@@ -99,7 +100,7 @@ public class JTree_Repository implements TreeSelectionListener{
 	}
 	
 	private void caricaAlberoDaDB(String path, DefaultMutableTreeNode nodo){
-		String query = "SELECT * FROM rep_filesystem WHERE tipo='dir' AND path='"+path+"';";
+		String query = "SELECT * FROM rep_directory WHERE path='"+path+"';";
 		Vector v = ConnessioneMySql.eseguiQuery(query);
 		String NomeDir,Path;
 		for(int i=0; i<v.size(); i++){
@@ -113,6 +114,7 @@ public class JTree_Repository implements TreeSelectionListener{
 			
 		}
 	}
+ */
 
 	public static Component getTree() {
 		return albero;
@@ -143,48 +145,7 @@ public class JTree_Repository implements TreeSelectionListener{
 		
     }
 	
-	public void AggiornamentoDBdaFTP(){
-		ConnessioneFTP.Connect();
-		aggiornaDBdaFTP();
-		ConnessioneFTP.Disconnect();
-	}
 	
-	private void aggiornaDBdaFTP(){
-		String query="DELETE FROM rep_filesystem;";
-		ConnessioneMySql.eseguiAggiornamento(query);
-		aggiornaDBdaFTP("/Repository");
-	}
-	
-	private void aggiornaDBdaFTP(String dirHome){
-		ConnessioneFTP.changeDirectory(dirHome); //Vado nella directory
-		FTPFile[] lista = ConnessioneFTP.getListFTPFile(); //Mi faccio restituire l'array del filesystem della cartella
-		String query = null;
-		Vector<String> vettoreDir = new Vector<String>();
-		
-		try{
-			for(int i=0;;i++){
-				
-				if(lista[i].getType() == FTPFile.TYPE_DIRECTORY){
-					System.out.println("Dir: "+lista[i].getName());
-					vettoreDir.add( lista[i].getName() );
-					query="INSERT INTO rep_filesystem (nome, path, tipo) VALUES ('"+lista[i].getName()+"', '"+dirHome+"', 'dir');";
-				}else{
-					System.out.println("File: "+lista[i].getName());
-					query="INSERT INTO rep_filesystem (nome, path, tipo) VALUES ('"+lista[i].getName()+"', '"+dirHome+"', 'file');";
-				}
-				ConnessioneMySql.eseguiAggiornamento(query);
-			}
-			
-		}catch(Exception e){
-			
-		}
-		
-		for(int i=0; i<vettoreDir.size(); i++){
-			aggiornaDBdaFTP( dirHome+"/"+vettoreDir.get(i) );
-		}
-			
-			
-	}
 
 
 	public void valueChanged(TreeSelectionEvent e) {
