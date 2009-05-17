@@ -7,10 +7,10 @@ public class ConnessioneMySql {
 	private static Database db = null;
 	
 	public ConnessioneMySql(){
-		//db = new Database("db_newprojectsd","newproject","asdasdasd");
-		//db.setPublicHost("db4free.net:3306");
-		db = new Database("db_newprojectsd","root","mysql");
-		db.setPublicHost("localhost");
+		db = new Database("db_newprojectsd","newproject","asdasdasd");
+		db.setPublicHost("db4free.net:3306");
+		//db = new Database("db_newprojectsd","root","mysql");
+		//db.setPublicHost("localhost");
 	}
 	
 	public static void connetti(){
