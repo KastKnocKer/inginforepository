@@ -1,16 +1,11 @@
 package Grafica;
 
-import java.awt.Color;
-import java.awt.FlowLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.util.Vector;
-
+import java.awt.*;
+import java.util.*;
 import it.sauronsoftware.ftp4j.FTPFile;
-
 import javax.swing.*;
-
-import Connessioni.ConnessioneFTP;
+import Componenti.*;
+import Connessioni.*;
 
 public class JPanel_Visualizzazione  extends JPanel{
 	
@@ -32,25 +27,30 @@ public class JPanel_Visualizzazione  extends JPanel{
 	
 	public static void caricaFileDirVisualizzata(){
 		JPV.removeAll();
-		ConnessioneFTP.Connect();
-		ConnessioneFTP.changeDirectory(DirVisualizzata);
-		Vector<String> listaFile = ConnessioneFTP.getVectorFile();
-		
 	
-		for(int i=0; i<listaFile.size(); i++){
+		Vector<Obj_File> V = new Vector();
+		for(int i=0; i<ListaFile.LinkListaFile.size(); i++){
+			if(((Obj_File) ListaFile.LinkListaFile.get(i)).getPath().equals(DirVisualizzata)){
+				V.add( (Obj_File) ListaFile.LinkListaFile.get(i) );
+			}
+		}
+		
+		for(int i=0; i<V.size(); i++){
 			c.gridy = i;
-			String tmp = listaFile.get(i);
-			JButton bottone = new JButton(tmp);
-			
+			String tmp = V.get(i).getNome();
+			JButton_Mod bottone = new JButton_Mod(tmp);
+			//JButton bottone = new JButton(tmp);
+			//bottone.setName(tmp);
+			System.out.println("FILE VISUAL: "+tmp);
 			JPanel_Visualizzazione.JPV.add( bottone,c);
 		}
 		
 		JPV.updateUI();
-		ConnessioneFTP.Disconnect();
 	}
 
 	public static void setDirVisualizzata(String dirVisualizzata) {
 		DirVisualizzata = dirVisualizzata;
+		System.out.println("DIR VISUAL: "+DirVisualizzata);
 		caricaFileDirVisualizzata();
 	}
 

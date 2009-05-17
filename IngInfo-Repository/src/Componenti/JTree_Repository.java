@@ -21,7 +21,7 @@ public class JTree_Repository implements TreeSelectionListener{
     private static DefaultMutableTreeNode nodoRadiceAlbero = null;
     private String percorsoSelezionato = null;
 	private static JTree albero = null;
-	private static Vector VettoreDir = null;
+	private static ListaDir VettoreDir = null;
 	private static DefaultMutableTreeNode nodoSelezionato;
     
     public JTree_Repository(){
@@ -41,13 +41,46 @@ public class JTree_Repository implements TreeSelectionListener{
         
         
         /*Carico da database i nodi del jtree*/
-        ConnessioneMySql.connetti();
-        caricaAlberoDaDBFast();
-        ConnessioneMySql.Disconnetti();
-        
+        caricaAlberoDaLista();
         modelloAlbero.reload();
     }
     
+    private void caricaAlberoDaLista(){
+    	VettoreDir=ListaDir.LinkListaDir;
+    	String NomeDir,Path;
+    	for(int i=0; i<VettoreDir.size(); i++){
+			Obj_Directory dir = (Obj_Directory) VettoreDir.get(i);
+			if( !dir.getPath().equals("/Repository") ) continue;
+			NomeDir=dir.getNome();
+			Path=dir.getPath();
+			System.out.println(NomeDir +" "+ Path);
+			DefaultMutableTreeNode nuovoNodo = new DefaultMutableTreeNode( NomeDir );
+			modelloAlbero.insertNodeInto(nuovoNodo, this.nodoRadiceAlbero, this.nodoRadiceAlbero.getChildCount());
+			caricaAlberoDaLista(Path+"/"+NomeDir, nuovoNodo);
+			
+			}
+    	
+    }
+    
+    private void caricaAlberoDaLista(String path, DefaultMutableTreeNode nodo){
+    	VettoreDir=ListaDir.LinkListaDir;
+    	String NomeDir,Path;
+		for(int i=0; i<VettoreDir.size(); i++){
+			Obj_Directory dir = (Obj_Directory) VettoreDir.get(i);
+			if( !dir.getPath().equals(path) ) continue;
+			NomeDir=dir.getNome();
+			Path=dir.getPath();
+			System.out.println(NomeDir +" "+ Path);
+			DefaultMutableTreeNode nuovoNodo = new DefaultMutableTreeNode( NomeDir );
+			modelloAlbero.insertNodeInto(nuovoNodo, nodo, nodo.getChildCount());
+			caricaAlberoDaLista(Path+"/"+NomeDir, nuovoNodo);
+			
+			}
+    	
+    }
+    
+    
+    /*
     private void caricaAlberoDaDBFast() {
 		String query = "SELECT * FROM rep_directory;";
 		VettoreDir = ConnessioneMySql.eseguiQuery(query);
@@ -81,7 +114,7 @@ public class JTree_Repository implements TreeSelectionListener{
 			}
 	}
     
-/*
+
  * 	private void caricaAlberoDaDB() {
 		String query = "SELECT * FROM rep_directory WHERE path='/Repository';";
 		Vector v = ConnessioneMySql.eseguiQuery(query);
@@ -156,15 +189,15 @@ public class JTree_Repository implements TreeSelectionListener{
 		
 		String[] tmp = null;
 		String path = null; /*PATH ASSOLUTO*/
-		for(int i=0; i<VettoreDir.size();i++){
-			tmp = (String[]) VettoreDir.get(i);
-			if(tmp[0].equals( nodoSelezionato.toString()) ){
-				path = tmp[1]+"/"+tmp[0];
+		for(int i=0; i<ListaDir.LinkListaDir.size();i++){
+			Obj_Directory dir = (Obj_Directory) ListaDir.LinkListaDir.get(i);
+			if(dir.getNome().equals( nodoSelezionato.toString()) ){
+				path = dir.getPath()+"/"+dir.getNome();
 				break;
 			}
 		}
-	System.out.println("Selezionato "+nodoSelezionato.toString());
-	System.out.println("PATH: "+path);
+	//System.out.println("Selezionato "+nodoSelezionato.toString());
+	//System.out.println("PATH: "+path);
 	JPanel_Visualizzazione.setDirVisualizzata(path);
 	}
 	

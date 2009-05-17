@@ -9,8 +9,8 @@ public class JButton_Mod extends JButton implements ActionListener{
 	
 	private String UrlFile = null;
 	
-	public JButton_Mod(){
-		super();
+	public JButton_Mod(String nomebottone){
+		super(nomebottone);
 		this.addActionListener(this);
 	}
 

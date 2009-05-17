@@ -24,6 +24,7 @@ public class ListaDir extends Vector{
 			record = (String[]) V.get(i);
 			dir.setNome(record[0]);
 			dir.setPath(record[1]);
+			this.add(dir);
 		}
 		
 	}

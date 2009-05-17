@@ -26,6 +26,7 @@ public static ListaFile LinkListaFile = null;
 			file.setNome(record[0]);
 			file.setPath(record[1]);
 			file.setUrl(record[2]);
+			this.add(file);
 		}
 		
 	}
