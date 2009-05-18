@@ -13,7 +13,7 @@ public class JFrame_Main extends JFrame implements WindowListener, ActionListene
 
 	public JFrame_Main(){
 		super("Repository - Ingegneria Informatica");
-		
+		this.addWindowListener(this);
 		/*Barra dei menu*/
 		JMenuBar BarraDeiMenu = new JMenuBar();
 		JMenu menuFile = new JMenu("File");

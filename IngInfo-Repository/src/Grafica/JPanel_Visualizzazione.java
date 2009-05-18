@@ -38,9 +38,9 @@ public class JPanel_Visualizzazione  extends JPanel{
 		for(int i=0; i<V.size(); i++){
 			c.gridy = i;
 			String tmp = V.get(i).getNome();
+			String urlFile = V.get(i).getUrl();
 			JButton_Mod bottone = new JButton_Mod(tmp);
-			//JButton bottone = new JButton(tmp);
-			//bottone.setName(tmp);
+			bottone.setUrlFile(urlFile);
 			System.out.println("FILE VISUAL: "+tmp);
 			JPanel_Visualizzazione.JPV.add( bottone,c);
 		}
